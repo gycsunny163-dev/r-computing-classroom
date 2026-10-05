@@ -1,0 +1,47 @@
+[
+  {
+    "id": "R-MANUAL",
+    "kind": "official_manual",
+    "locator": "https://cran.r-project.org/doc/manuals/r-release/R-intro.html",
+    "authority": "R Core Team",
+    "admitted_scope": "基础 R、向量、流程、函数、表格、文件、图形和模型的概念来源",
+    "limits": "读取的是 R 4.6.1 在线手册；课程运行约束为 R 4.5，示例须另行执行验证；不用于推断学生能力或 UCL 范围",
+    "unresolved": "平台实际运行见 validation 文件"
+  },
+  {
+    "id": "R-R10",
+    "kind": "official_function_help",
+    "locator": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html",
+    "authority": "R stats package",
+    "admitted_scope": "样本标准差的定义、缺失值规则",
+    "limits": "开发版帮助页；运行结果另行验证",
+    "unresolved": null
+  },
+  {
+    "id": "R-R11",
+    "kind": "official_function_help",
+    "locator": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html",
+    "authority": "R stats package",
+    "admitted_scope": "lm 函数接口和最小二乘模型",
+    "limits": "不构成对本课程合成数据的实证结论",
+    "unresolved": null
+  },
+  {
+    "id": "ENV-MAMBA",
+    "kind": "official_installation_docs",
+    "locator": "https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html",
+    "authority": "Mamba project",
+    "admitted_scope": "macOS ARM/Intel 和 Windows 64-bit 安装工具及独立环境",
+    "limits": "安装方法文档不等于在所有系统实际运行成功",
+    "unresolved": "Windows 实机验收待运行"
+  },
+  {
+    "id": "ENV-IRKERNEL",
+    "kind": "official_kernel_docs",
+    "locator": "https://irkernel.github.io/installation/",
+    "authority": "IRkernel project",
+    "admitted_scope": "R 到 Jupyter 的内核接口",
+    "limits": "不代表 Google 与本机 Notebook 已建立自动连接",
+    "unresolved": null
+  }
+]

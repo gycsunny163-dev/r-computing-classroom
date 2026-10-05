@@ -1,0 +1,17 @@
+# Each learner's private attempts, records and generated outputs.
+work/
+.local/
+.validation/
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+Thumbs.db
+*.log
+*.zip
+token*
+.env

@@ -1,0 +1,5 @@
+{"evidence_id": "E-R-MANUAL", "source_id": "R-MANUAL", "summary": "基础 R、向量、流程、函数、表格、文件、图形和模型的概念来源", "locator": "https://cran.r-project.org/doc/manuals/r-release/R-intro.html", "limits": "读取的是 R 4.6.1 在线手册；课程运行约束为 R 4.5，示例须另行执行验证；不用于推断学生能力或 UCL 范围"}
+{"evidence_id": "E-R-R10", "source_id": "R-R10", "summary": "样本标准差的定义、缺失值规则", "locator": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/sd.html", "limits": "开发版帮助页；运行结果另行验证"}
+{"evidence_id": "E-R-R11", "source_id": "R-R11", "summary": "lm 函数接口和最小二乘模型", "locator": "https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html", "limits": "不构成对本课程合成数据的实证结论"}
+{"evidence_id": "E-ENV-MAMBA", "source_id": "ENV-MAMBA", "summary": "macOS ARM/Intel 和 Windows 64-bit 安装工具及独立环境", "locator": "https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html", "limits": "安装方法文档不等于在所有系统实际运行成功"}
+{"evidence_id": "E-ENV-IRKERNEL", "source_id": "ENV-IRKERNEL", "summary": "R 到 Jupyter 的内核接口", "locator": "https://irkernel.github.io/installation/", "limits": "不代表 Google 与本机 Notebook 已建立自动连接"}

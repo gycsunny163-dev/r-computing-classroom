@@ -1,0 +1,57 @@
+name: R course cross-platform checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  notebooks:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install on Mac
+        if: runner.os == 'macOS'
+        env:
+          CI: 'true'
+          R_CLASSROOM_RUNTIME: ${{ runner.temp }}/r-classroom
+        run: /bin/zsh setup-mac.command
+      - name: Validate Mac notebooks
+        if: runner.os == 'macOS'
+        shell: bash
+        run: >-
+          "$RUNNER_TEMP/r-classroom/bin/micromamba" --no-rc --root-prefix "$RUNNER_TEMP/r-classroom/mamba-root" run --prefix "$RUNNER_TEMP/r-classroom/environment"
+          python tests/validate.py --runtime "$RUNNER_TEMP/r-classroom"
+      - name: Install on Windows
+        if: runner.os == 'Windows'
+        shell: cmd
+        env:
+          CI: 'true'
+          R_CLASSROOM_RUNTIME: ${{ runner.temp }}\r-classroom
+        run: setup-windows.cmd
+      - name: Validate Windows notebooks
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $courseRuntime = Join-Path $env:RUNNER_TEMP 'r-classroom'
+          & "$courseRuntime\Library\bin\micromamba.exe" --no-rc --root-prefix "$courseRuntime\mamba-root" run --prefix "$courseRuntime\environment" python tests/validate.py --runtime "$courseRuntime"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Check Mac launch and shutdown
+        if: runner.os == 'macOS'
+        shell: bash
+        run: >-
+          "$RUNNER_TEMP/r-classroom/bin/micromamba" --no-rc --root-prefix "$RUNNER_TEMP/r-classroom/mamba-root" run --prefix "$RUNNER_TEMP/r-classroom/environment"
+          python tests/lifecycle.py --runtime "$RUNNER_TEMP/r-classroom"
+      - name: Check Windows launch and shutdown
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $courseRuntime = Join-Path $env:RUNNER_TEMP 'r-classroom'
+          & "$courseRuntime\Library\bin\micromamba.exe" --no-rc --root-prefix "$courseRuntime\mamba-root" run --prefix "$courseRuntime\environment" python tests/lifecycle.py --runtime "$courseRuntime"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validation-${{ matrix.os }}
+          path: .validation/
