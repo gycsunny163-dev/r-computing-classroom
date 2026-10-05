@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest]
+        os: [macos-latest, macos-15-intel, windows-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 35
     steps:
@@ -16,20 +16,20 @@ jobs:
         if: runner.os == 'macOS'
         env:
           CI: 'true'
-          R_CLASSROOM_RUNTIME: ${{ runner.temp }}/r-classroom
+          R_CLASSROOM_RUNTIME: ${{ runner.temp }}/R classroom
         run: /bin/zsh setup-mac.command
       - name: Validate Mac notebooks
         if: runner.os == 'macOS'
         shell: bash
         run: >-
-          "$RUNNER_TEMP/r-classroom/bin/micromamba" --no-rc --root-prefix "$RUNNER_TEMP/r-classroom/mamba-root" run --prefix "$RUNNER_TEMP/r-classroom/environment"
-          python tests/validate.py --runtime "$RUNNER_TEMP/r-classroom"
+          "$RUNNER_TEMP/R classroom/bin/micromamba" --no-rc --root-prefix "$RUNNER_TEMP/R classroom/mamba-root" run --prefix "$RUNNER_TEMP/R classroom/environment"
+          python tests/validate.py --runtime "$RUNNER_TEMP/R classroom"
       - name: Install on Windows
         if: runner.os == 'Windows'
         shell: cmd
         env:
           CI: 'true'
-          R_CLASSROOM_RUNTIME: ${{ runner.temp }}\r-classroom
+          R_CLASSROOM_RUNTIME: ${{ runner.temp }}\R classroom
         run: setup-windows.cmd
       - name: Validate Windows notebooks
         if: runner.os == 'Windows'
@@ -42,8 +42,8 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         run: >-
-          "$RUNNER_TEMP/r-classroom/bin/micromamba" --no-rc --root-prefix "$RUNNER_TEMP/r-classroom/mamba-root" run --prefix "$RUNNER_TEMP/r-classroom/environment"
-          python tests/lifecycle.py --runtime "$RUNNER_TEMP/r-classroom"
+          "$RUNNER_TEMP/R classroom/bin/micromamba" --no-rc --root-prefix "$RUNNER_TEMP/R classroom/mamba-root" run --prefix "$RUNNER_TEMP/R classroom/environment"
+          python tests/lifecycle.py --runtime "$RUNNER_TEMP/R classroom"
       - name: Check Windows launch and shutdown
         if: runner.os == 'Windows'
         shell: pwsh
@@ -55,3 +55,4 @@ jobs:
         with:
           name: validation-${{ matrix.os }}
           path: .validation/
+          include-hidden-files: true
