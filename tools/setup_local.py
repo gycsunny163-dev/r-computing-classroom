@@ -1,7 +1,20 @@
 from pathlib import Path
-import argparse, json, os, shutil, subprocess, sys
+import argparse, json, os, re, shlex, shutil, subprocess, sys
 
 REPO=Path(__file__).resolve().parents[1]
+def quote_r_wrapper_paths(r):
+    """Quote conda R's literal Unix paths; upstream wrappers can omit quotes."""
+    if sys.platform=='win32':return
+    wrapper=Path(r).resolve()
+    original=wrapper.read_text(encoding='utf-8')
+    if not original.startswith('#!'):return
+    pattern=r'^(R_HOME_DIR|R_SHARE_DIR|R_INCLUDE_DIR|R_DOC_DIR)=(/[^\n]*)$'
+    repaired=re.sub(pattern,lambda m:m[1]+'='+shlex.quote(m[2]),original,flags=re.M)
+    if repaired==original:return
+    backup=wrapper.with_name(wrapper.name+'.classroom-original')
+    if not backup.exists():shutil.copy2(wrapper,backup)
+    wrapper.write_text(repaired,encoding='utf-8')
+
 def default_runtime():
     if sys.platform=='win32':
         return Path(os.environ['LOCALAPPDATA'])/'RClassroom-v1'
@@ -13,6 +26,9 @@ def setup(runtime):
     r=shutil.which('R')
     if not r:
         raise SystemExit('R was not found in this environment. Run setup again.')
+    if not Path(r).resolve().is_relative_to((runtime/'environment').resolve()):
+        raise SystemExit('R is outside the course environment. Run the course setup entry again.')
+    quote_r_wrapper_paths(r)
     data=runtime/'data'
     kernel=data/'kernels/r-course';kernel.mkdir(parents=True,exist_ok=True)
     rhome=subprocess.check_output([r,'--vanilla','--slave','-e','cat(R.home())'],text=True).strip()

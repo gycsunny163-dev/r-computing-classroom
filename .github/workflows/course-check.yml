@@ -35,7 +35,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $courseRuntime = Join-Path $env:RUNNER_TEMP 'r-classroom'
+          $courseRuntime = Join-Path $env:RUNNER_TEMP 'R classroom'
           & "$courseRuntime\Library\bin\micromamba.exe" --no-rc --root-prefix "$courseRuntime\mamba-root" run --prefix "$courseRuntime\environment" python tests/validate.py --runtime "$courseRuntime"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Check Mac launch and shutdown
@@ -48,7 +48,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          $courseRuntime = Join-Path $env:RUNNER_TEMP 'r-classroom'
+          $courseRuntime = Join-Path $env:RUNNER_TEMP 'R classroom'
           & "$courseRuntime\Library\bin\micromamba.exe" --no-rc --root-prefix "$courseRuntime\mamba-root" run --prefix "$courseRuntime\environment" python tests/lifecycle.py --runtime "$courseRuntime"
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - uses: actions/upload-artifact@v4

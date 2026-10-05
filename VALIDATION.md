@@ -18,6 +18,8 @@
 
 本地原始运行证据放在 `.validation/`，其中含执行后的 Notebook、环境报告与启停报告。该目录默认不进入公共 Git；GitHub CI 每次运行独立生成报告。首轮 [两平台运行记录](https://github.com/gycsunny163-dev/r-computing-classroom/actions/runs/37310390800) 已通过，覆盖课程提交 ea5479af36914c51aaeaf8a5d489bd2dbdac372b；首轮 artifact 因隐藏目录过滤未上传，证据保留在运行日志中。后续 workflow 已修正报告上传，并增加 Intel Mac 和含空格的运行目录检查，结果以对应运行记录为准。
 
+[含空格目录的首轮补测](https://github.com/gycsunny163-dev/r-computing-classroom/actions/runs/37311005234) 发现 conda R 的 Unix 启动脚本把安装路径直接写成未加引号的赋值，导致两种 Mac 架构安装后启动失败；Windows 测试引用了不一致的运行目录。安装设置已增加课程自有 R 环境的路径引号修复，保留原始脚本备份，并拒绝修改环境外的 R。Windows 的测试路径也已统一；修复后的三平台结果仍需实际 CI 验证。
+
 CI 的 Windows 环境是 GitHub 托管 Windows runner，浏览器不打开。它验证真实 Windows 安装、R 内核执行和本机服务生命周期，不替代 Windows 10 或 11 上双击入口、浏览器交互和首次系统来源批准的人工验收。Mac 本机 Chrome 交互已另行检查；Intel 机型及第三方个人设备以自身实际运行结果为准。
 
 维护者的验证方式：在本课程环境中执行 `python tests/validate.py --runtime <本机运行目录>` 和 `python tests/lifecycle.py --runtime <本机运行目录>`。后者会关闭当前仓库的课堂服务；运行前请先保存个人作答。两项检查不打开 AI 网站、不上传作答、不执行学生答案。
