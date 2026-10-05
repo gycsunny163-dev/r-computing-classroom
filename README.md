@@ -60,7 +60,7 @@
 
 本版约束 R 4.5、IRkernel 1.3.2、Python 3.12、JupyterLab 4.x；不同平台由 `environment.yml` 分别解析二进制，不把 Mac 安装包复制到 Windows。
 
-本机验收结果见 `VALIDATION.md`。Windows 安装入口和 GitHub Actions 的 Mac/Windows 测试已经提供；**只有 Windows CI 或实机真的运行成功，才可标记 Windows 验收通过。** 上传 GitHub 后可在 Actions 查看课程示例和环境检查的结果，未执行的 workflow 不是测试证据。
+Mac Apple Silicon、Intel Mac 和 Windows x64 的自动验收均已通过：安装、12 个教材示例、独立环境检查、服务复用与关闭、现有作答文件保留，以及含空格的安装目录。见 [实际三平台运行结果](https://github.com/gycsunny163-dev/r-computing-classroom/actions/runs/37311708777)。本机 Mac 的 Chrome 交互也已检查；CI 不打开浏览器，个人电脑的首次系统批准和 GUI 使用仍由使用者实际核对。详细范围见 [VALIDATION.md](VALIDATION.md)。
 
 维护者在已安装的环境中运行 `python tests/validate.py --runtime <本机运行目录>`；它只执行教材示例与独立环境检查，不读取学生答案。输出保存在 Git 忽略的 `.validation/`。`--save-example-outputs` 是维护者发布教材输出用的选项。
 
